@@ -1,7 +1,7 @@
 // Import necessary components from React Native and other libraries
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet, Platform, ScrollView, TextInput, TouchableOpacity, Modal } from 'react-native';
-import { useState } from 'react';
+import { useLocalSearchParams } from 'expo-router';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 // Import custom themed components
@@ -9,6 +9,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function HomeScreen() {
+  const { membershipType } = useLocalSearchParams();
+  const membershipTypeString = typeof membershipType === 'string' ? membershipType : 'basic';
   // State management for user profile data
   const [profile, setProfile] = useState({
     fName: '', // First name
@@ -208,6 +210,7 @@ export default function HomeScreen() {
             style={styles.profileImage}
           />
           <ThemedText type="title">{profile.fName} {profile.lName}</ThemedText>
+          <ThemedText style={styles.membershipBadge}>{membershipTypeString.toUpperCase()} Member</ThemedText>
         </ThemedView>
 
         {/* About Me Section */}
@@ -333,5 +336,15 @@ const styles = StyleSheet.create({
   dateLabel: {
     textAlign: 'left',
     marginBottom: 5,
+  },
+  membershipBadge: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#007AFF',
+    backgroundColor: '#f8f9ff',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+    marginTop: 8,
   },
 });
